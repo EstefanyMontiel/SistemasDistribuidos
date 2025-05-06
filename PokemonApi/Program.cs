@@ -7,15 +7,15 @@ using SoapCore;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSoapCore();
 
-builder.Services.AddSingleton<IPokemonService, PokemonService>();
+builder.Services.AddScoped<IPokemonService, PokemonService>();
 builder.Services.AddScoped<IPokemonRepository,PokemonRepository>();
 
 //para que sirven
 
-builder.Services.AddSingleton<IHobbyService, HobbyService>();
+builder.Services.AddScoped<IHobbyService, HobbyService>();
 builder.Services.AddScoped<IHobbyRepository,HobbyRepository>();
 
-builder.Services.AddSingleton<IBookService, BookService>();
+builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IBookRepository,BookRepository>();
 
 

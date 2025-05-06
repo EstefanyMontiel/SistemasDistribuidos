@@ -23,7 +23,13 @@ public class PokemonRepository : IPokemonRepository
     var Pokemon = await _context.Pokemons.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
     return Pokemon.ToModel();
     }
-       public async Task DeleteAsync(Pokemon pokemon, CancellationToken cancellationToken)
+
+    public async Task <List<Pokemon>> GetPokemonsByNameAsync(string name,CancellationToken cancellationToken){
+        var pokemon = await _context.Pokemons.AsNoTracking().Where(s => s.Name.Contains(name)).ToListAsync(cancellationToken);
+    return pokemon.Select(h => h.ToModel()).ToList(); 
+    }
+
+    public async Task DeleteAsync(Pokemon pokemon, CancellationToken cancellationToken)
     {
         _context.Pokemons.Remove(pokemon.ToEntity());
         await _context.SaveChangesAsync(cancellationToken);
