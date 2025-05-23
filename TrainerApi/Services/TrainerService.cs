@@ -2,6 +2,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using TrainerApi.Mappers;
 using TrainerApi.Repositories;
+using TrainerApi; // Add this if your Protobuf messages are in the TrainerApi namespace
 
 namespace TrainerApi.Services;
 
@@ -36,11 +37,29 @@ public class TrainerService : TrainerApi.TrainerService.TrainerServiceBase
             var createdTrainer = await _trainerRepository.CreateAsync(trainer, context.CancellationToken);
             createdTrainers.Add(createdTrainer.ToResponse());
 
-        };
+        }
+        ;
         return new CreateTrainersResponse
         {
             SuccessCount = createdTrainers.Count,
             Trainers = { createdTrainers }
         };
     }
+
+    public override async Task GetTrainersByName(GetTrainersByNameRequest request, IServerStreamWriter<TrainerResponse> responseStream, ServerCallContext context)
+    {
+
+        if (request.Name.Length <= 1)
+        {
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Name field is required"));
+        }
+        var trainers = await _trainerRepository.GetByNameAsync(request.Name, context.CancellationToken);
+
+        foreach (var trainer in trainers)
+        {
+            await responseStream.WriteAsync(trainer.ToResponse());
+            await Task.Delay(TimeSpan.FromSeconds(5), context.CancellationToken);
+        }
+    }
+    
 }
