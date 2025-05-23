@@ -80,5 +80,16 @@ namespace PokemonApi.Mappers
                 Speed = stats.Speed
             };
         }
+
+        public static List<Pokemon> ToModelList(this List<PokemonEntity> entities)
+        {
+            return entities?.Select(e => e.ToModel()).ToList() ?? new List<Pokemon>();
+        }
+
+        public static List<PokemonResponseDto> ToDtoList(this List<Pokemon> pokemons)
+        {
+            return pokemons?.Select(b => b.ToDto()).ToList() ?? new List<PokemonResponseDto>();
+        }
+    
     }
 }
