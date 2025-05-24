@@ -9,18 +9,20 @@ namespace PokemonApi.Services;
 
 public class PokemonService : IPokemonService
 {
-    private readonly IPokemonRepository _pokemonRepository; 
+    private readonly IPokemonRepository _pokemonRepository;
     public PokemonService(IPokemonRepository pokemonRepository)
     {
         _pokemonRepository = pokemonRepository;
     }
 
-    public async Task<PokemonResponseDto> GetPokemonById(Guid id, CancellationToken cancellationToken){
+    public async Task<PokemonResponseDto> GetPokemonById(Guid id, CancellationToken cancellationToken)
+    {
         var pokemon = await _pokemonRepository.GetByIdAsync(id, cancellationToken);
-        if (pokemon == null){
+        if (pokemon == null)
+        {
             throw new FaultException("Pokemon not found");
         }
-        return pokemon.ToDto();      
+        return pokemon.ToDto();
     }
     public async Task<List<PokemonResponseDto>> GetPokemonByName(string name, CancellationToken cancellationToken)
     {
@@ -39,18 +41,21 @@ public class PokemonService : IPokemonService
         return true;
     }
 
-    public async Task<PokemonResponseDto> CreatePokemon(CreatePokemonDto createPokemonDto, CancellationToken cancellationToken){
-        var  pokemonToCreate = createPokemonDto.ToModel();
+    public async Task<PokemonResponseDto> CreatePokemon(CreatePokemonDto createPokemonDto, CancellationToken cancellationToken)
+    {
+        var pokemonToCreate = createPokemonDto.ToModel();
 
         pokemonToCreate.ValidateName().ValidateLevel().ValidateType();
 
         await _pokemonRepository.AddAsync(pokemonToCreate, cancellationToken);
         return pokemonToCreate.ToDto();
     }
-    
-    public async  Task<PokemonResponseDto> UpdatePokemon (UpdatePokemonDto pokemon, CancellationToken cancellationToken){
+
+    public async Task<PokemonResponseDto> UpdatePokemon(UpdatePokemonDto pokemon, CancellationToken cancellationToken)
+    {
         var pokemonToUpdate = await _pokemonRepository.GetByIdAsync(pokemon.Id, cancellationToken);
-        if (pokemonToUpdate is null){
+        if (pokemonToUpdate is null)
+        {
             throw new FaultException("Pokemon not found");
         }
 
@@ -64,10 +69,5 @@ public class PokemonService : IPokemonService
         await _pokemonRepository.UpdateAsync(pokemonToUpdate, cancellationToken);
         return pokemonToUpdate.ToDto();
     }
-
-
-
-
     
-
 }
