@@ -24,3 +24,10 @@ class TrainerRepository:
         self._store[new_id] = trainer
         return trainer
         
+        
+    def GetTrainersByName(self, name: str) -> List[Trainer]:
+        # Busca coincidencias insensibles a mayúsculas/minúsculas
+        return [
+            trainer for trainer in self._store.values()
+            if name.lower() in trainer.name.lower()
+        ]
