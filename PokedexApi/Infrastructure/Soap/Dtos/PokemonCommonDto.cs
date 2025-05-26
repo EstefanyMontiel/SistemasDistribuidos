@@ -7,10 +7,10 @@ namespace PokedexApi.Infrastructure.Soap.Dtos;
 
 public class PokemonCommonDto{
     
- [DataMember(Name = "Name", Order = 1)]
- public required string Name { get; set; }
+    [DataMember(Name = "Name", Order = 1)]
+    public required string Name { get; set; }
 
-   
+
     [DataMember(Name = "Type", Order = 2)]
     public required string Type { get; set; }
     
@@ -18,7 +18,6 @@ public class PokemonCommonDto{
     [DataMember(Name = "Level", Order = 3)]
     public int Level { get; set; }
 
-   
     [DataMember(Name = "Stats", Order = 4)]
     public required StatsDto Stats { get; set; }
 
