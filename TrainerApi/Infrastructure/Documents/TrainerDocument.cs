@@ -7,9 +7,9 @@ public class TrainerDocument
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set;} 
+    public required string Id { get; set;} 
     [BsonElement("name")]
-    public string Name { get; set;}
+    public required string Name { get; set;}
     [BsonElement("age")]
     public int Age { get; set;} 
     [BsonElement("birthdate")]
