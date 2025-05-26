@@ -13,7 +13,7 @@ public interface IHobbyService
         Task<bool> DeleteHobbyById(int id, CancellationToken cancellationToken);
 
         [OperationContract]
-         Task<List<HobbiesResponseDto>> GetHobbyByName(string name,CancellationToken cancellationToken);
+        Task<List<HobbiesResponseDto>> GetHobbyByName(string name,CancellationToken cancellationToken);
 
         [OperationContract]
         Task<HobbiesResponseDto> CreateHobby(CreateHobbyDto createHobbyDto,CancellationToken cancellationToken);
