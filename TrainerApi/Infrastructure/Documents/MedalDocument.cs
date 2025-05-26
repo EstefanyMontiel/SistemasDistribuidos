@@ -5,7 +5,8 @@ namespace TrainerApi.Infrastructure.Documents;
 public class MedalDocument
 {
     [BsonElement("region")]
-    public string Region { get; set;}
+    public required string Region { get; set;}
+
     [BsonElement("type")]
     public MedalType Type { get; set;}
 }
