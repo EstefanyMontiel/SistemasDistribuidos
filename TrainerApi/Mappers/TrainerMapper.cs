@@ -12,7 +12,7 @@ public static class TrainerMapper
         {
             return null;
         }
-         return new Trainer{
+        return new Trainer{
             Id = trainer.Id,
             Name = trainer.Name,
             Age = trainer.Age,
@@ -22,7 +22,7 @@ public static class TrainerMapper
                 Region = s.Region,
                 Type = (Models.MedalType)(int) s.Type
             }).ToList()
-         };
+        };
     }
 
     public static Trainer ToModel(this CreateTrainerRequest trainer)

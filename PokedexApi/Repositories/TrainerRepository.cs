@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Grpc.Core;
 using PokedexApi.Mappers;
 using PokedexApi.Models;
@@ -27,4 +28,18 @@ public class TrainerRepository : ITrainerRepository
             return null;
         }
     }
-}
+
+
+    public async IAsyncEnumerable<Trainer> GetAllByNamesAsync(string name, CancellationToken cancellationToken)
+    {
+
+
+        var request = new GetTrainersByNameRequest { Name = name };
+        using var call = _client.GetTrainersByName(request, cancellationToken: cancellationToken);
+        while (await call.ResponseStream.MoveNext(cancellationToken))
+        {
+            yield return call.ResponseStream.Current.ToModel();
+        }
+    }
+    
+    }

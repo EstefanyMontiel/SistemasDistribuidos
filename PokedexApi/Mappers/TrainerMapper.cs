@@ -39,4 +39,9 @@ public static class TrainerMappers
             }).ToList()
         };
     }
+
+    public static IEnumerable<TrainerResponseDto> ToDto(this IEnumerable<Trainer> trainers)
+    {
+        return trainers.Select(s => s.ToDto());
+    }
 }
