@@ -4,7 +4,7 @@ from concurrent import futures
 import grpc
 from google.protobuf.timestamp_pb2 import Timestamp
 from Trainerpb.trainer_pb2_grpc import TrainerServiceServicer, add_TrainerServiceServicer_to_server
-from Trainerpb.trainer_pb2 import TrainerByIdRequest, CreateTrainerRequest
+from Trainerpb.trainer_pb2 import TrainerByIdRequest, CreateTrainerRequest, GetTrainersByNameRequest
 
 
 from Repositories.TrainerRepository import TrainerRepository
@@ -38,13 +38,23 @@ class TrainerService(TrainerServiceServicer):
             created.append(tr)
         return toCreateResponse(created)
 
+    def GetTrainersByName(self, request: GetTrainersByNameRequest, context):
+        trainers = self.repo.GetTrainersByName(request.name)
+        if not trainers:
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+            context.set_details(f"Entrenador con nombre {request.name} no encontrado")
+            return
+        for trainer in trainers:
+            yield toResponse(trainer)
+
+
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
     repo = TrainerRepository()
     add_TrainerServiceServicer_to_server(TrainerService(repo), server)  
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port('[::]:50052')
     server.start()
-    print("Servidor gRPC escuchando en localhost:50051")
+    print("Servidor gRPC escuchando en localhost:50052")
     try:
         while True:
             time.sleep(86400)

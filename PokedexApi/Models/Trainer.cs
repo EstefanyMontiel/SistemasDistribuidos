@@ -2,7 +2,7 @@ namespace PokedexApi.Models;
 
 public class Trainer
 {
-    public required string Id { get; set; }
+    public string Id { get; set; }
     public required string Name { get; set; }
     public int Age { get; set; }
     public DateTime BirthDate { get; set; }
