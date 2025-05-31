@@ -48,6 +48,22 @@ public class TrainersController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [HttpPost]
+    public async Task<ActionResult<TrainerResponseDto>>
+    CreateTrainerAsync([FromBody] List<CreateTrainerRequestDto> request, CancellationToken cancellationToken)
+    {
+        var trainers = request.ToModel();
+
+        var (createdTrainers, successCount) = await _trainerService.CreateTrainerAsync(trainers, cancellationToken);
+
+        return Ok(new{SuccessCount = successCount, Trainers = createdTrainers});
+
+    }
+
+
+
+
 }
 
 

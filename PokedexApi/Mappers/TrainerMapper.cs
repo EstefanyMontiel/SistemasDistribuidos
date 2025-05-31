@@ -44,4 +44,27 @@ public static class TrainerMappers
     {
         return trainers.Select(s => s.ToDto());
     }
+
+
+    public static List<Trainer> ToModel(this List<CreateTrainerRequestDto> request)
+    {
+        return request.Select(s => new Trainer
+        {
+            Name = s.Name,
+            Age = s.Age,
+            BirthDate = s.BirthDate,
+            Medals = s.Medals.Select(m => new Medal
+            {
+                Region = m.Region,
+                Type = m.Type.ToString()
+            }).ToList()
+        }).ToList();
+    }
+    
+
+
+    public static List<Trainer> ToModel(this Google.Protobuf.Collections.RepeatedField<TrainerResponse> trainers)
+    {
+        return trainers.Select(s => s.ToModel()).ToList();
+    }
 }

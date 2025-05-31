@@ -32,11 +32,18 @@ public class TrainerService : ITrainerService
             {
                 trainers.Add(trainer);
             }
-        } catch (RpcException ex) when (ex.StatusCode == StatusCode.InvalidArgument)
+        }
+        catch (RpcException ex) when (ex.StatusCode == StatusCode.InvalidArgument)
         {
             throw new TrainerValidationException("Se requiren al menos dos caracteres.");
         }
-                return trainers;    
+        return trainers;
+    }
+
+    public async Task<(int SuccessCount, List<Trainer> CreatedTrainers)>
+    CreateTrainerAsync(List<Trainer> trainers, CancellationToken cancellationToken)
+    {
+        return await _trainerRepository.CreateTrainersAsync(trainers, cancellationToken);
     }
 
 
