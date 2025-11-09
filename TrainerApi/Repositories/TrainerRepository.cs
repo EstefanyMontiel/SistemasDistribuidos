@@ -48,3 +48,4 @@ public class TrainerRepository : ITrainerRepository
         return trainers.Select(s => s.ToModel()).ToList();
     }
 }
+

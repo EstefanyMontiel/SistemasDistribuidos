@@ -12,3 +12,4 @@ public interface ITrainerService
     CreateTrainerAsync(List<Trainer> trainers, CancellationToken cancellationToken);
     
 }
+

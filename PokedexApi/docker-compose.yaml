@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   pokedex-api:
     build:
@@ -11,6 +9,7 @@ services:
       - hydra-admin
       - hydra-public
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - Authentication__Authority=http://hydra-public:4444
       - Authentication_Issues=http://hydra-public:4444
   postgres:
