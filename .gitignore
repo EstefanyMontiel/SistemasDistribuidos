@@ -1,0 +1,43 @@
+
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+*.out
+*.o
+*.a
+
+
+*.log
+
+.vscode/          # VS Code settings
+.idea/            # IntelliJ IDEA settings
+*.iml             # IntelliJ IDEA project files
+
+go.sum
+
+
+
+#Elementos de ignorar de los lenguajes 
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+
+
+.vscode/
+
+*.user
+*.suo
+*.vcxproj.user
+*.cache
+*.pdb
+*.opendb
+
+.idea/
+*.sln.iml
+
+*.nupkg
+*.snupkg
+packages/
