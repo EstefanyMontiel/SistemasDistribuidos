@@ -1,0 +1,39 @@
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: DistributedSystems
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - appnet
+
+  pokemonapiserver:
+    build:
+      context: .  # Asegúrate de que el Dockerfile esté en esta ruta
+    image: pokemonapi:1
+    container_name: pokemonapiserver
+    ports:
+      - "8081:8080"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: DistributedSystems
+      DB_USER: root
+      DB_PASSWORD: 12345
+    depends_on:
+      - mysql
+    networks:
+      - appnet
+
+volumes:
+  mysql_data:
+
+networks:
+  appnet:
+    driver: bridge
